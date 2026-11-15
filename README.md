@@ -1,41 +1,37 @@
 # Skyboxes
 
-Небесные пакеты `.sky`, которые ведутся вместе с плагином, и одновременно — **источник тех пакетов,
-что уезжают в бандл**. Всё, что лежит здесь на верхнем уровне, сборка `TweakerUI` копирует в
-`PluginPayload\TweakerStuff\SkyboxReplacer\Skyboxes\`, откуда оно попадает в игру пользователя.
-Исключение одно и общее с `TweakerPlugin\assets\scripts`: **`dev\` не уезжает никуда**.
+The `.sky` packages that ship with
+[Audiosurf Tweaker](https://github.com/Unchpokable/Audiosurf-Tweaker). This repository is the source
+the Tweaker's build copies into the game payload: everything tracked here is a package the player
+gets.
+
+## Contents
 
 | | |
 |---|---|
-| `OurDraftsCollides.sky/` | рабочая копия, она же поставляемая. Здесь правят манифест, шейдеры и `scripts/clouds.lua`; сюда же смотрят харнессы `skylua/realtest`, `skyfill/realfill`, `place` и `skyload/pkg` |
-| `ODC_VolTex.sky/` | поставляемая: та же сцена на запечённом объёмном шуме |
-| `dev/OurDraftsZipped.sky` | **тот же пакет, что `OurDraftsCollides`, зазипованный** — вторая форма формата. В бандл не едет: пользователю это было бы одно и то же небо под двумя именами |
+| `Canvas.sky/` | Submodule: [Canvas](https://github.com/Audiosurf-Tweaker/Canvas), the shipped sky. |
+| `dev/` | Not tracked. Scratch packages and zipped copies while a package is being tested. |
 
-## Зачем архив лежит рядом с папкой
+A package is a folder whose name ends in `.sky`, with `Config.json` at its root. The zip form is the
+same folder zipped and renamed to `<name>.sky`; the plugin loads both through the same path, and the
+zip is what you ship.
 
-Пакет существует в двух формах: каталог с `Config.json` и zip этого каталога. Форма — упаковка, а
-не другой вид неба, и весь смысл в том, что ниже уровня `sky_vfs` их отличить нельзя. Держать в
-репозитории только каталог значило бы, что архивная половина формата проверяется исключительно
-временными файлами.
+## Why a submodule
 
-Архив собран **обёрткой вокруг папки** (`OurDraftsCollides.sky/Config.json` внутри, а не
-`Config.json` в корне) — намеренно, потому что это та из двух раскладок, где движку приходится
-срезать общий верхний каталог. Плоский вариант тривиален, а этот — нет.
+Each sky is its own product with its own history, issues and release zip
+(see [Canvas](https://github.com/Audiosurf-Tweaker/Canvas)). This repository only pins the versions
+that ship, so one sky can be updated without rewriting the others. Cloning with
+`--recurse-submodules` brings the packages in.
 
-Чтобы пересобрать после правок в папке:
+## Working on a sky
 
-```powershell
-Compress-Archive -Force -Path Skyboxes\OurDraftsCollides.sky -DestinationPath Skyboxes\dev\OurDraftsZipped.zip
-Move-Item -Force Skyboxes\dev\OurDraftsZipped.zip Skyboxes\dev\OurDraftsZipped.sky
-```
+Edit the package in its own repository. To try a local edit in the game, drop the folder, or a zip
+of it, into `Audiosurf\engine\TweakerStuff\SkyboxReplacer\Skyboxes\` and pick it in the Skybox tab
+of the in-game overlay. `dev/` is ignored on purpose: it is where those scratch copies live.
 
-Переименование обязательно: `Compress-Archive` отказывается писать что-либо кроме `.zip`. Плагин
-опознаёт форму по тому, открылось ли это как архив, а не по расширению — но `.sky` нужен, чтобы
-каталог неба вообще включил файл в список.
+The sky manual lives in the Tweaker's repository:
+[Docs/skyboxes.md](https://github.com/Unchpokable/Audiosurf-Tweaker/blob/HEAD/Docs/skyboxes.md).
 
-## Как подсунуть их игре
+## Licence
 
-Обе формы кладут в папку, на которую указывает `skybox_dir` в `TweakerSkybox.cfg`, и выбирают во
-вкладке Skybox. Настройки у них общие: ключ берётся из имени без расширения, так что папка `Foo.sky`
-и архив `Foo.sky` делят один файл настроек — а `OurDraftsCollides` и `OurDraftsZipped` не делят,
-и это удобно, когда обе загружены сразу.
+MIT, see [LICENSE](LICENSE).

@@ -1,0 +1,6 @@
+# Scratch packages, zipped copies and experiments. Only real packages are tracked.
+/dev/
+
+# OS junk
+Thumbs.db
+desktop.ini
