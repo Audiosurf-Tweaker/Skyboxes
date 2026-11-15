@@ -1,0 +1,3 @@
+[submodule "Canvas.sky"]
+	path = Canvas.sky
+	url = https://github.com/Audiosurf-Tweaker/Canvas.git
