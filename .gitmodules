@@ -1,3 +1,7 @@
 [submodule "Canvas.sky"]
 	path = Canvas.sky
 	url = https://github.com/Audiosurf-Tweaker/Canvas.git
+
+[submodule "Nano Neon.sky"]
+	path = Nano Neon.sky
+	url = https://github.com/Audiosurf-Tweaker/Nano-Neon.git

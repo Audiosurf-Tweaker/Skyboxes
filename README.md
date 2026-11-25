@@ -10,6 +10,7 @@ gets.
 | | |
 |---|---|
 | `Canvas.sky/` | Submodule: [Canvas](https://github.com/Audiosurf-Tweaker/Canvas), the shipped sky. |
+| `Nano Neon.sky/` | Submodule: [Nano-Neon](https://github.com/Audiosurf-Tweaker/Nano-Neon), an electronic neon sky in the spirit of Audiosurf 2 substratum. |
 | `dev/` | Not tracked. Scratch packages and zipped copies while a package is being tested. |
 
 A package is a folder whose name ends in `.sky`, with `Config.json` at its root. The zip form is the
